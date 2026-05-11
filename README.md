@@ -1,6 +1,6 @@
 # Sistema de Pedidos - CP2 FIAP
 
-Checkpoint 2 da matéria de Arquitetura de Software com a Profa. Damiana Costa.
+
 
 ---
 
