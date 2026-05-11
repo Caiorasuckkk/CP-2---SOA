@@ -7,9 +7,11 @@
 
 ## 👥 Integrantes
 
-| Nome | Turma |
+| Nome 
 |------|-------|
-| _(preencher com nomes do grupo)_ | 3ESPY — 2026 |
+|Caio Rasuck Barbosa  RM: 93645
+|Arthur Menezes RM 56296
+
 
 ---
 
