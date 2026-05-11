@@ -30,7 +30,7 @@ Sistema REST de gerenciamento de pedidos para uma plataforma de delivery, implem
 | **Pydantic** | 2.9 | Validação de entrada e schemas |
 | **Uvicorn** | 0.30 | Servidor ASGI |
 
-> **Troca de banco:** basta alterar `DATABASE_URL` em `app/database.py` para PostgreSQL (`postgresql://user:pass@host/db`) sem mudar nenhum código de negócio.
+
 
 ---
 
@@ -62,7 +62,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 A API estará disponível em: **http://localhost:8000**  
 Documentação interativa (Swagger): **http://localhost:8000/docs**
 
-> O banco SQLite é criado e populado automaticamente na primeira inicialização com 3 clientes e 4 produtos de exemplo.
+
 
 ---
 
