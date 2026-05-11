@@ -1,110 +1,96 @@
-# 🛒 Sistema de Pedidos — CP2 FIAP 3ESPY 2026
+# Sistema de Pedidos - CP2 FIAP
 
-> **Checkpoint 2 — Implementação da Arquitetura de Pedidos**  
-> Disciplina: Arquitetura de Software | Profa. Damiana Costa
-
----
-
-## 👥 Integrantes
-
-|Caio Rasuck Barbosa  RM: 93645
-|Arthur Menezes RM 56296
-
+Checkpoint 2 da matéria de Arquitetura de Software com a Profa. Damiana Costa.
 
 ---
 
-## 📋 Descrição do Sistema
+## Integrantes
 
-Sistema REST de gerenciamento de pedidos para uma plataforma de delivery, implementando os domínios de **Pedido**, **Produto**, **Estoque**, **Pagamento** e **Notificação**. O sistema valida regras de negócio, controla o fluxo de status dos pedidos e simula o processamento de pagamentos.
-
----
-
-## 🛠 Tecnologias Utilizadas
-
-| Tecnologia | Versão | Papel |
-|---|---|---|
-| **Python** | 3.12 | Linguagem principal |
-| **FastAPI** | 0.115 | Framework web / REST API |
-| **SQLAlchemy** | 2.0 | ORM / abstração do banco |
-| **SQLite** | built-in | Persistência (dev/teste) |
-| **Pydantic** | 2.9 | Validação de entrada e schemas |
-| **Uvicorn** | 0.30 | Servidor ASGI |
-
-
+| Nome | RM | Turma |
+|------|----|-------|
+| Caio Rasuck Barbosa | 93645 | 3ESPY 2026 |
+| Arthur Menezes | 56296 | 3ESPY 2026 |
 
 ---
 
-## 🚀 Como Executar o Projeto
+## Sobre o projeto
 
-### Pré-requisitos
-- Python 3.11 ou superior
-- pip
+A ideia era pegar a arquitetura que a gente tinha desenhado no CP1 e colocar em código de verdade. Fizemos uma API REST de pedidos com os domínios de Pedido, Produto, Estoque, Pagamento e Notificação.
 
-### Instalação e execução
+Usamos Python com FastAPI porque já tinhamos familiaridade e a documentação automática via Swagger ajuda bastante na hora de testar.
+
+---
+
+## Tecnologias
+
+- Python 3.11
+- FastAPI
+- SQLAlchemy (ORM)
+- SQLite (banco local, fácil de rodar sem configurar nada)
+- Pydantic (validação)
+- Uvicorn (servidor)
+
+---
+
+## Como rodar
 
 ```bash
-# 1. Clonar o repositório
 git clone <url-do-repositorio>
 cd sistema-pedidos
 
-# 2. Criar e ativar ambiente virtual
 python -m venv venv
-source venv/bin/activate        # Linux/Mac
-venv\Scripts\activate           # Windows
+venv\Scripts\Activate.ps1   # Windows
+# ou
+source venv/bin/activate    # Linux/Mac
 
-# 3. Instalar dependências
 pip install -r requirements.txt
 
-# 4. Executar a aplicação
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --reload
 ```
 
-A API estará disponível em: **http://localhost:8000**  
-Documentação interativa (Swagger): **http://localhost:8000/docs**
+Acessa em http://localhost:8000/docs — lá já tem a interface pra testar tudo.
 
-
-
----
-
-## 📡 Lista de Endpoints
-
-### 🧾 Pedidos
-
-| Método | Endpoint | Descrição | Status de sucesso |
-|--------|----------|-----------|-------------------|
-| `POST` | `/pedidos/` | Cria um novo pedido | `201 Created` |
-| `GET` | `/pedidos/` | Lista todos os pedidos | `200 OK` |
-| `GET` | `/pedidos/{id}` | Consulta um pedido pelo ID | `200 OK` |
-| `PUT` | `/pedidos/{id}/status` | Atualiza o status do pedido | `200 OK` |
-| `POST` | `/pedidos/{id}/pagamento` | Processa o pagamento do pedido | `200 OK` |
-| `GET` | `/pedidos/{id}/notificacoes` | Lista notificações do pedido | `200 OK` |
-| `DELETE` | `/pedidos/{id}` | Cancela um pedido | `204 No Content` |
-
-### 📦 Produtos
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `GET` | `/produtos/` | Lista todos os produtos |
-| `GET` | `/produtos/{id}` | Consulta produto pelo ID |
-
-### 📊 Estoque
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `GET` | `/estoque/{produto_id}` | Consulta estoque de um produto |
-| `POST` | `/estoque/adicionar` | Adiciona unidades ao estoque |
-
-### 💳 Pagamentos
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| `GET` | `/pagamentos/{pedido_id}` | Lista pagamentos de um pedido |
+O banco cria sozinho na primeira vez que roda, já com 3 clientes e 4 produtos de exemplo.
 
 ---
 
-### Exemplos de requisições
+## Endpoints
 
-**Criar pedido:**
+### Pedidos
+
+| Método | Rota | O que faz |
+|--------|------|-----------|
+| POST | /pedidos/ | Cria um pedido |
+| GET | /pedidos/ | Lista todos |
+| GET | /pedidos/{id} | Busca um pedido |
+| PUT | /pedidos/{id}/status | Atualiza status |
+| POST | /pedidos/{id}/pagamento | Processa pagamento |
+| GET | /pedidos/{id}/notificacoes | Ver notificações |
+| DELETE | /pedidos/{id} | Cancela o pedido |
+
+### Produtos
+
+| Método | Rota | O que faz |
+|--------|------|-----------|
+| GET | /produtos/ | Lista produtos |
+| GET | /produtos/{id} | Busca produto |
+
+### Estoque
+
+| Método | Rota | O que faz |
+|--------|------|-----------|
+| GET | /estoque/{produto_id} | Consulta estoque |
+| POST | /estoque/adicionar | Adiciona estoque |
+
+### Pagamentos
+
+| Método | Rota | O que faz |
+|--------|------|-----------|
+| GET | /pagamentos/{pedido_id} | Histórico de pagamentos |
+
+### Exemplo rápido
+
+Criar pedido:
 ```json
 POST /pedidos/
 {
@@ -116,7 +102,7 @@ POST /pedidos/
 }
 ```
 
-**Processar pagamento:**
+Pagar:
 ```json
 POST /pedidos/1/pagamento
 {
@@ -124,153 +110,68 @@ POST /pedidos/1/pagamento
   "forma_pagamento": "PIX"
 }
 ```
-> Para simular **recusa**, use `"CARTAO_INVALIDO"` ou `"CREDITO_INSUFICIENTE"` como forma de pagamento.
 
-**Atualizar status:**
-```json
-PUT /pedidos/1/status
-{
-  "status": "CANCELADO"
-}
+Pra simular pagamento recusado, usa `"CARTAO_INVALIDO"` como forma de pagamento.
+
+---
+
+## Arquitetura
+
+Seguimos a arquitetura em camadas, dividida assim:
+
+```
+Controller  →  Service  →  Repository  →  Banco
+```
+
+**Controller** só recebe a requisição HTTP e repassa pro service. Não tem nenhuma regra de negócio aqui.
+
+**Service** é onde fica a lógica de verdade — validações, fluxo de status, orquestração entre os domínios.
+
+**Repository** cuida do banco. Se um dia quiser trocar o SQLite por PostgreSQL, só muda aqui.
+
+**Models** definem as tabelas. Os Schemas Pydantic ficam separados e servem como contrato da API.
+
+Fluxo de status do pedido:
+```
+CRIADO → AGUARDANDO_PAGAMENTO → PAGO → FINALIZADO
+                                    ↘ CANCELADO
 ```
 
 ---
 
-## 🏗 Explicação da Arquitetura
-
-O sistema foi desenvolvido seguindo a **Arquitetura em Camadas** (Layered Architecture), com separação clara de responsabilidades entre quatro camadas principais:
-
-```
-┌─────────────────────────────────────────────────┐
-│              CAMADA DE APRESENTAÇÃO              │
-│         Controllers (FastAPI Routers)            │
-│   Recebe HTTP → valida entrada → chama Service   │
-├─────────────────────────────────────────────────┤
-│              CAMADA DE NEGÓCIO                   │
-│              Services (domínio)                  │
-│  Orquestra regras de negócio, fluxos e eventos   │
-├─────────────────────────────────────────────────┤
-│              CAMADA DE DADOS                     │
-│         Repositories (acesso ao banco)           │
-│     Abstrai queries SQL via SQLAlchemy ORM       │
-├─────────────────────────────────────────────────┤
-│              CAMADA DE PERSISTÊNCIA              │
-│       Models (SQLAlchemy) + SQLite/PostgreSQL    │
-└─────────────────────────────────────────────────┘
-```
-
-### Descrição de cada camada
-
-**Controllers:** recebem as requisições HTTP, extraem parâmetros, delegam ao service e retornam respostas com status HTTP corretos. Não contêm nenhuma regra de negócio.
-
-**Services:** onde toda a lógica de negócio reside. Cada domínio possui seu próprio service (`PedidoService`, `PagamentoService`, `EstoqueService`, `NotificacaoService`), evitando classes "Deus" que concentram tudo.
-
-**Repositories:** isolam o acesso ao banco de dados. Se o banco for trocado (ex: de SQLite para PostgreSQL), apenas esta camada precisa de ajuste.
-
-**Models:** definem a estrutura das tabelas via ORM. Separados dos Schemas Pydantic (que definem o contrato da API), evitando acoplamento entre representação interna e representação externa.
-
----
-
-## 🔀 Como as Responsabilidades foram Separadas
-
-Cada domínio possui sua própria responsabilidade isolada:
-
-| Componente | Responsabilidade exclusiva |
-|---|---|
-| `PedidoService` | Orquestra o fluxo do pedido, valida regras de status |
-| `EstoqueService` | Verifica disponibilidade e gerencia quantidades |
-| `PagamentoService` | Simula processamento e registra resultado |
-| `NotificacaoService` | Registra eventos no banco e no log do sistema |
-| `ProdutoService` | Consulta e expõe dados de produtos |
-| `*Repository` | Abstrai o acesso ao banco de dados |
-| `*Controller` | Traduz HTTP ↔ domínio |
-| `exceptions/` | Centraliza erros de negócio mapeados para HTTP |
-| `schemas/` | Define o contrato da API (entrada/saída) |
-
----
-
-## ❓ Perguntas Discursivas
-
-### 1. Como a comunicação entre os componentes do sistema foi organizada no código?
-
-A comunicação entre os componentes foi organizada por meio de **injeção de dependência** e **orquestração centralizada no `PedidoService`**, sem que nenhum componente conheça os detalhes internos do outro.
-
-Cada domínio possui seu próprio service, que é instanciado com a sessão de banco de dados e encapsulado em seu repositório. O `PedidoService` é o único que conhece os demais services — e os aciona na sequência correta do fluxo —, mas nunca acessa seus repositórios diretamente. Isso garante **baixo acoplamento**: o `PedidoService` sabe *o que* cada componente faz, mas não *como* ele faz.
-
-Por exemplo, ao criar um pedido:
-- `EstoqueService` é chamado para verificar disponibilidade — sem que `PedidoService` saiba como o banco de estoque funciona.
-- `PagamentoService` é chamado para processar o pagamento — sem que `PedidoService` conheça a lógica de aprovação/recusa.
-- `NotificacaoService` é chamado ao final — sem que os outros componentes saibam como a notificação é registrada.
-
-Cada service é **coeso** (faz apenas o que lhe pertence) e **desacoplado** (não depende da implementação dos outros). Isso torna o sistema fácil de testar, modificar e escalar.
-
----
-
-### 2. Se o componente de pagamento ficasse indisponível em um cenário real, qual seria o impacto na sua arquitetura? Como sua solução poderia evoluir para reduzir esse impacto?
-
-**Impacto atual:** Na arquitetura atual, o `PagamentoService` é chamado de forma **síncrona** dentro do fluxo do pedido. Se o serviço de pagamento (ex: gateway externo) ficasse indisponível, a requisição falharia com erro 500, o pedido ficaria em estado `AGUARDANDO_PAGAMENTO` e o estoque já teria sido reservado — gerando inconsistência.
-
-**Como a solução poderia evoluir:**
-
-A principal evolução seria a adoção de um **padrão assíncrono com filas de mensagens (Message Broker)**, como RabbitMQ ou Apache Kafka:
-
-1. Ao criar o pedido, em vez de chamar o pagamento diretamente, um **evento** seria publicado em uma fila (`pedido.aguardando_pagamento`).
-2. Um **consumidor** do serviço de pagamento processaria esse evento de forma independente.
-3. O resultado (aprovado/recusado) seria publicado em outro evento (`pagamento.resultado`), que o serviço de pedidos consumiria para atualizar o status.
-
-Com isso:
-- A criação do pedido não bloqueia esperando o pagamento.
-- Se o serviço de pagamento cair, os eventos ficam na fila e são processados quando ele voltar — sem perda de dados.
-- Os serviços ficam completamente desacoplados e podem escalar de forma independente.
-
-Complementarmente, poderiam ser adotados:
-- **Circuit Breaker** (ex: Resilience4j/tenacity) para detectar falhas e evitar cascata.
-- **Retry com backoff exponencial** para tentativas automáticas.
-- **Timeout configurado** para não deixar requisições presas indefinidamente.
-- **Saga Pattern** para coordenar transações distribuídas com compensação automática (ex: repor estoque se pagamento falhar após timeout).
-
----
-
-## 📊 Diagrama Arquitetural
-
-Ver arquivo `diagrama_arquitetural.md` na raiz do repositório.
-
----
-
-## 🗂 Estrutura do Projeto
+## Estrutura de pastas
 
 ```
 sistema-pedidos/
 ├── app/
-│   ├── main.py                    # Entry point da aplicação
-│   ├── database.py                # Configuração do banco e seed
-│   ├── controllers/               # Camada HTTP (routers FastAPI)
-│   │   ├── pedido_controller.py
-│   │   ├── produto_controller.py
-│   │   ├── estoque_controller.py
-│   │   └── pagamento_controller.py
-│   ├── services/                  # Camada de negócio
-│   │   ├── pedido_service.py
-│   │   ├── pagamento_service.py
-│   │   ├── estoque_service.py
-│   │   ├── produto_service.py
-│   │   └── notificacao_service.py
-│   ├── repositories/              # Camada de acesso a dados
-│   │   ├── pedido_repository.py
-│   │   ├── produto_repository.py
-│   │   ├── pagamento_repository.py
-│   │   └── cliente_repository.py
-│   ├── models/                    # Modelos ORM (tabelas)
-│   │   ├── pedido_model.py
-│   │   ├── produto_model.py
-│   │   ├── cliente_model.py
-│   │   ├── pagamento_model.py
-│   │   └── notificacao_model.py
-│   ├── schemas/                   # Contrato da API (Pydantic)
-│   │   └── schemas.py
-│   └── exceptions/                # Exceções de domínio e handlers
-│       ├── exceptions.py
-│       └── handlers.py
+│   ├── main.py
+│   ├── database.py
+│   ├── controllers/
+│   ├── services/
+│   ├── repositories/
+│   ├── models/
+│   ├── schemas/
+│   └── exceptions/
 ├── requirements.txt
 └── README.md
 ```
+
+---
+
+## Perguntas discursivas
+
+### 1. Como a comunicação entre os componentes foi organizada?
+
+A gente tentou deixar cada parte do sistema responsável por uma coisa só. O `PedidoService` é quem coordena o fluxo quando um pedido é criado — ele chama o `EstoqueService` pra ver se tem produto disponível, depois o `PagamentoService` pra processar o pagamento, e por fim o `NotificacaoService` pra registrar o que aconteceu.
+
+O que a gente quis evitar foi aquele negócio de colocar tudo num lugar só. Se o `PedidoService` precisasse saber como o banco de estoque funciona por dentro, qualquer mudança no estoque poderia quebrar o pedido. Então cada service cuida do seu domínio e expõe só o que o outro precisa saber.
+
+O controller também não tem nada de lógica — ele recebe o JSON, passa pro service e devolve a resposta. Se precisar mudar alguma regra de negócio, a gente mexe só no service e não precisa tocar no resto.
+
+### 2. Se o pagamento ficasse indisponível, qual seria o impacto e como evoluir?
+
+Do jeito que tá hoje o pagamento é chamado direto, de forma síncrona. Se o serviço de pagamento cair no meio do fluxo, a requisição falha e o pedido pode ficar travado em `AGUARDANDO_PAGAMENTO` com o estoque já reservado — o que é um problema.
+
+Pra resolver isso num cenário real, a gente usaria uma fila de mensagens tipo RabbitMQ ou Kafka. Em vez de chamar o pagamento diretamente, o sistema publicaria um evento na fila e o serviço de pagamento processaria quando pudesse. Se ele cair, os eventos ficam esperando na fila e são processados quando voltar — sem perder nada.
+
+Outras coisas que ajudariam: um Circuit Breaker pra detectar quando o serviço tá fora e parar de tentar, retry automático com um tempo de espera entre as tentativas, e o padrão Saga pra conseguir desfazer operações caso algo dê errado no meio do caminho (tipo repor o estoque automaticamente se o pagamento não sair).
