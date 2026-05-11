@@ -7,8 +7,6 @@
 
 ## 👥 Integrantes
 
-| Nome 
-|------|-------|
 |Caio Rasuck Barbosa  RM: 93645
 |Arthur Menezes RM 56296
 
